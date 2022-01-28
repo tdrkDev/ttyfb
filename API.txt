@@ -1,0 +1,58 @@
+Introduction
+------------
+ttyfb, ttyui are libraries allowing you to display graphics
+in tty through /dev/fb0. Performance of these libraries is not
+so good... Anyway, this is beta and as example, in main.c there 
+are mini drawing game. ttyfb programs should be run with the
+superuser's rights.
+
+ttyfb
+-----
+ttyfb is the lowest-level library in this repository. It access
+directly framebuffer and have some wrappers (put_rect() and more)
+to display easy figures and PNG image with lodepng library.
+
+- API:
+int ttyfb_init(struct ttyfb *fb)
+    Initializes ttyfb structure. You SHOULD call this function
+    before any other calls to ttyfb API.
+
+void ttyfb_exit(struct ttyfb *fb)
+    Destructs ttyfb structure and closes framebuffer. You SHOULD 
+    call this function on exit of your program.
+
+void put_pixel(struct ttyfb *fb, struct ttyfb_color clr, int x, int y)
+    Displays pixel in X, Y position with given color.
+
+void put_square(ttyfb_t *fb, ttyfb_color_t clr, int x, int y, int size)
+    Puts square on given position (it specifies right top corner
+    of square) with given color and size.
+
+void put_rect(ttyfb_t *fb, ttyfb_color_t clr, int x, int y, int x2, int y2)
+    Puts rectangle on given position (it specifies right top corner
+    of rectangle) with given color and width (x2), height (y2);
+
+void put_ellipse(ttyfb_t *fb, ttyfb_color_t clr, int x, int y, int h, int w)
+    Puts ellipse on given position (it specifies center of ellipse) 
+    with given color and width (w), height (h);
+
+void put_img(ttyfb_t *fb, int ix, int iy, char *filename)
+    Loads PNG image with lodepng and displays it on
+    given position (ix, iy; specifies right top corner).
+
+ttyui
+-----
+Currently it can only give you access to mouse.
+
+- API:
+int ttyui_init(struct ttyfb *fb)
+    Initializes ttyui. Should be called before mouse structure
+    access.
+
+void ttyfb_close(struct ttyfb *fb)
+    Closes ttyui. It's recommended to call this function on
+    program exit.
+
+struct ttyfb_mouse *mouse (global variable)
+    Current mouse state. Updates on separate thread.
+    Update stops only on ttyfb_close() or program exit.
