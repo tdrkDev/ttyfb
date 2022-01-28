@@ -14,6 +14,9 @@ Build: `./build.sh`
 Run: `./out/ttyfb`
 
 RMB - Eraser
+
 LMB - Pencil
+
 MMB - Clear all
+
 Ctrl+C - Close game
